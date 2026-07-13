@@ -3,8 +3,6 @@ import { CaptureBar } from "./components/CaptureBar";
 import { Sidebar } from "./components/Sidebar";
 import { TaskList } from "./components/TaskList";
 import { parseInput } from "./lib/parse";
-import type { Task } from "./types";
-import { todayISO } from "./lib/dates";
 import { ProgressRing } from "./components/ProgressRing";
 import { useAuth } from "./hooks/useAuth";
 import { Login } from "./components/Login";
