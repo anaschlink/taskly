@@ -40,9 +40,9 @@ async function handleAdd(raw: string){
   <div className="flex h-screen bg-paper text-ink">
         <Sidebar lists={lists} />
 
-        <main className="flex-1 overflow-y-auto p-8">
+        <main className="flex-1 overflow-y-auto p-4 md:p-8">
         <div className="mx-auto max-w-2xl">
-            <h1 className="font-display text-3xl font-bold text-accent">Taskly</h1>
+            <h1 className="font-display text-2xl md:text-3xl font-bold text-accent">Taskly</h1>
             <ProgressRing progress={progresso}/>
             <div className="mt-6">
             <CaptureBar onAdd={handleAdd} />

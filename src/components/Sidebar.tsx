@@ -6,7 +6,7 @@ interface SidebarProps {
 
 export function Sidebar({ lists }: SidebarProps) {
   return (
-    <aside className="flex w-60 shrink-0 flex-col gap-1 border-r border-neutral-200 bg-white p-4">
+    <aside className="hidden md:flex w-60 shrink-0 flex-col gap-1 border-r border-neutral-200 bg-white p-4">
       <div className="mb-4">
         <div className="font-display text-xl font-bold text-ink">Taskly</div>
         <div className="text-xs text-neutral-400">anota e resolve</div>
