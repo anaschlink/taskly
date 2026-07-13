@@ -24,6 +24,9 @@ function Taskly(){
     const concluidas = tasks.filter((t) => t.completed_at).length;
     const progresso = tasks.length === 0 ? 0 : concluidas / tasks.length;
     const [menuAberto, setMenuAberto] = useState(false);
+    const [listaAtiva, setListaAtiva] = useState<string | null>(null);
+
+    const tarefasVisiveis = listaAtiva ? tasks.filter((t) => t.list_id === listaAtiva): tasks;
 
 
 async function handleAdd(raw: string){
@@ -42,7 +45,13 @@ async function handleAdd(raw: string){
     
   <div className="flex h-screen bg-paper text-ink">
 
-        <Sidebar lists={lists} aberto={menuAberto} onFechar={() => setMenuAberto(false)} />
+        <Sidebar 
+        lists={lists}
+        aberto={menuAberto}
+        onFechar={() => setMenuAberto(false)}
+        listaAtiva={listaAtiva}
+        onSelecionarLista = {setListaAtiva}
+         />
 
         <main className="flex-1 overflow-y-auto p-4 md:p-8">
         <div className="mx-auto max-w-2xl">
@@ -57,7 +66,7 @@ async function handleAdd(raw: string){
             <CaptureBar onAdd={handleAdd} />
             </div>
             <div className="mt-6">
-            <TaskList tasks={tasks} onToggle={toggleTask} onRemove={removeTask} />
+            <TaskList tasks={tarefasVisiveis} onToggle={toggleTask} onRemove={removeTask} />
             </div>
         </div>
         </main>

@@ -22,7 +22,7 @@ export function TaskRow ({task, onToggle, onRemove}: TaskRowProps){
             {task.important && <span className="text-amber-500">★</span>}
             {task.due_date && <span className="font-mono text-xs text-neutral-500">{dateLabel(task.due_date)}</span>}
             <button onClick={() => onRemove(task.id)}
-            className="text-neutral-300 opacity-0 transition group-hover:opacity-100 hover:text-red-500"
+            className="text-neutral-300 opacity-100 md:opacity-0 transition group-hover:md:opacity-100 hover:text-red-500"
             >×</button>
 
         </div>

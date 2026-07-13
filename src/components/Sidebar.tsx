@@ -4,9 +4,11 @@ interface SidebarProps {
   lists: List[];
   aberto: boolean;
   onFechar: () => void;
+  listaAtiva: string | null;
+  onSelecionarLista: (id: string | null) => void;
 }
 
-export function Sidebar({ lists, aberto, onFechar }: SidebarProps) {
+export function Sidebar({ lists, aberto, onFechar, listaAtiva, onSelecionarLista }: SidebarProps) {
   return (
     <>
       {aberto && (
@@ -24,12 +26,27 @@ export function Sidebar({ lists, aberto, onFechar }: SidebarProps) {
         <div className="mb-1 text-xs font-semibold uppercase tracking-wide text-neutral-400">
           Listas
         </div>
+        <button
+          onClick={() => { onSelecionarLista(null); onFechar(); }}
+          className={`flex items-center gap-2 rounded-lg px-2 py-1.5 text-left text-sm ${
+            listaAtiva === null ? "bg-accent-soft text-accent font-medium" : "text-neutral-600 hover:bg-neutral-100"
+          }`}
+        >
+          Todas
+        </button>
         {lists.map((l) => (
-          <div key={l.id} className="flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-neutral-600 hover:bg-neutral-100">
+          <button
+            key={l.id}
+            onClick={() => { onSelecionarLista(l.id); onFechar(); }}
+            className={`flex items-center gap-2 rounded-lg px-2 py-1.5 text-left text-sm ${
+              listaAtiva === l.id ? "bg-accent-soft text-accent font-medium" : "text-neutral-600 hover:bg-neutral-100"
+            }`}
+          >
             <span className="h-2.5 w-2.5 rounded-full" style={{ background: l.color }} />
             {l.title}
-          </div>
+          </button>
         ))}
+
         {lists.length === 0 && (
           <div className="px-2 text-xs text-neutral-400">crie com #nome</div>
         )}
