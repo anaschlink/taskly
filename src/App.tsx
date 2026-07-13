@@ -19,7 +19,7 @@ export function App(){
 }
 
 function Taskly(){
-    const { tasks, lists, addTask, toggleTask, removeTask, ensureList } = useTasks();
+    const { tasks, lists, addTask, toggleTask, removeTask, ensureList, removeList } = useTasks();
 
     const concluidas = tasks.filter((t) => t.completed_at).length;
     const progresso = tasks.length === 0 ? 0 : concluidas / tasks.length;
@@ -51,16 +51,14 @@ async function handleAdd(raw: string){
         onFechar={() => setMenuAberto(false)}
         listaAtiva={listaAtiva}
         onSelecionarLista = {setListaAtiva}
+        onExcluirLista={removeList}
          />
 
         <main className="flex-1 overflow-y-auto p-4 md:p-8">
         <div className="mx-auto max-w-2xl">
-            <button
+            <h1
             onClick={() => setMenuAberto(true)}
-            className="md:hidden text-2xl">
-            ☰
-            </button>
-            <h1 className="font-display text-2xl md:text-3xl font-bold text-accent">Taskly</h1>
+             className="font-display text-2xl md:text-3xl font-bold text-accent cursor-pointer md:cursor-default">Taskly</h1>
             <ProgressRing progress={progresso}/>
             <div className="mt-6">
             <CaptureBar onAdd={handleAdd} />

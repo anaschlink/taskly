@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { fetchTasks,insertTask, updateTask, deleteTask } from "../services/taskServices";
-import { fetchLists, insertList } from "../services/listServices";
+import { fetchLists, insertList, deleteList } from "../services/listServices";
 import type {Task, List} from "../types"
 
 
@@ -44,6 +44,12 @@ export function useTasks(){
     await deleteTask(id);
     }
 
+    async function removeList(id: string) {
+    setLists(lists.filter((l) => l.id !== id));
+    setTasks(tasks.map((t) => (t.list_id === id ? { ...t, list_id: null } : t)));
+    await deleteList(id);
+    }
+
     async function ensureList(name: string): Promise<string | null> {
     const existente = lists.find((l) => l.title === name);
     if (existente) return existente.id;
@@ -56,6 +62,6 @@ export function useTasks(){
     return null;
     }
 
-    return {tasks, lists, addTask, toggleTask, removeTask,ensureList }
+    return {tasks, lists, addTask, toggleTask, removeTask,ensureList, removeList }
 }
 

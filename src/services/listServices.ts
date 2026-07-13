@@ -16,3 +16,8 @@ export async function insertList(title: string): Promise<List | null> {
   if (error) { console.error("Erro ao criar list:", error); return null; }
   return data;
 }
+
+export async function deleteList(id: string): Promise<void>{
+  const {error} = await supabase.from("lists").delete().eq("id",id); if (error) console.error("Erro ao deletar list:", error);
+
+}
