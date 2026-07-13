@@ -20,10 +20,16 @@ export const names: Record<string, number> = {
 };
 
 export const weekdays: Record<string, number> = {
-  "dom": 0, "seg": 1, "ter": 2, "qua": 3,
-  "qui": 4, "sex": 5, "sab": 6,
+  "dom": 0, "domingo": 0, 
+  "segunda":1, "seg": 1, 
+  "terca": 2, "terça": 2, "ter": 2,
+  "qua": 3,"quarta": 3,
+  "qui": 4,"quinta": 4,
+  "sex": 5, "sexta": 5,
+  "sab": 6,"sábado": 6, "sabado": 6
 };
 
+ 
 export function dateLabel(iso: string): string {
   const hoje = todayISO();
   if (iso === hoje) return "hoje";
