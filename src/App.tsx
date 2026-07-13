@@ -7,7 +7,7 @@ import { ProgressRing } from "./components/ProgressRing";
 import { useAuth } from "./hooks/useAuth";
 import { Login } from "./components/Login";
 import { useState } from "react";
-
+import { signOut } from "./services/authServices";
 
 export function App(){
     const session = useAuth()
@@ -19,7 +19,7 @@ export function App(){
 }
 
 function Taskly(){
-    const { tasks, lists, addTask, toggleTask, removeTask, ensureList, removeList } = useTasks();
+    const { tasks, lists, addTask, toggleTask, removeTask, ensureList, removeList, mudarCorLista } = useTasks();
 
     const concluidas = tasks.filter((t) => t.completed_at).length;
     const progresso = tasks.length === 0 ? 0 : concluidas / tasks.length;
@@ -27,6 +27,7 @@ function Taskly(){
     const [listaAtiva, setListaAtiva] = useState<string | null>(null);
 
     const tarefasVisiveis = listaAtiva ? tasks.filter((t) => t.list_id === listaAtiva): tasks;
+    
 
 
 async function handleAdd(raw: string){
@@ -52,6 +53,8 @@ async function handleAdd(raw: string){
         listaAtiva={listaAtiva}
         onSelecionarLista = {setListaAtiva}
         onExcluirLista={removeList}
+        onMudarCor={mudarCorLista}
+        onSair={signOut}
          />
 
         <main className="flex-1 overflow-y-auto p-4 md:p-8">
@@ -64,7 +67,11 @@ async function handleAdd(raw: string){
             <CaptureBar onAdd={handleAdd} />
             </div>
             <div className="mt-6">
+            {tarefasVisiveis.length === 0? (
+                <p className="mt-10 text-center text-sm text-neutral-400">Tudo limpo por aqui. Solta a próxima tarefa lá em cima.  ✨</p>
+            ): 
             <TaskList tasks={tarefasVisiveis} onToggle={toggleTask} onRemove={removeTask} />
+            }
             </div>
         </div>
         </main>

@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { fetchTasks,insertTask, updateTask, deleteTask } from "../services/taskServices";
-import { fetchLists, insertList, deleteList } from "../services/listServices";
+import { fetchLists, insertList, deleteList, updateListColor } from "../services/listServices";
 import type {Task, List} from "../types"
 
-
+export const PALETA = ["#5546FF", "#E0567C", "#2FA98C", "#E0A83C", "#7C5CD6", "#3B9AE0"];
 
 export function useTasks(){
     const [tasks, setTasks] = useState<Task[]>([]);
@@ -50,11 +50,16 @@ export function useTasks(){
     await deleteList(id);
     }
 
+    async function mudarCorLista(id: string, color: string) {
+    setLists(lists.map((l) => (l.id === id ? { ...l, color } : l)));
+    await updateListColor(id, color);
+    }
+
     async function ensureList(name: string): Promise<string | null> {
     const existente = lists.find((l) => l.title === name);
     if (existente) return existente.id;
-
-    const criada = await insertList(name);
+    const cor = PALETA[lists.length % PALETA.length];
+    const criada = await insertList(name, cor);
     if (criada) {
         setLists([criada, ...lists]);
         return criada.id;
@@ -62,6 +67,6 @@ export function useTasks(){
     return null;
     }
 
-    return {tasks, lists, addTask, toggleTask, removeTask,ensureList, removeList }
+    return {tasks, lists, addTask, toggleTask, removeTask,ensureList, removeList, mudarCorLista }
 }
 

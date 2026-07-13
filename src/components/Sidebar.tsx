@@ -1,4 +1,6 @@
 import type { List } from "../types";
+import { useState } from "react";
+import { PALETA } from "../hooks/useTasks";
 
 interface SidebarProps {
   lists: List[];
@@ -7,9 +9,12 @@ interface SidebarProps {
   listaAtiva: string | null;
   onSelecionarLista: (id: string | null) => void;
   onExcluirLista: (id: string) => void;
+  onMudarCor: (id: string, color: string) => void;
+  onSair: () => void;
 }
 
-export function Sidebar({ lists, aberto, onFechar, listaAtiva, onSelecionarLista, onExcluirLista }: SidebarProps) {
+export function Sidebar({ lists, aberto, onFechar, listaAtiva, onSelecionarLista, onExcluirLista, onMudarCor, onSair }: SidebarProps) {
+  const [corAberta, setCorAberta] = useState<string | null>(null);
   return (
     <>
       {aberto && (
@@ -36,31 +41,53 @@ export function Sidebar({ lists, aberto, onFechar, listaAtiva, onSelecionarLista
           Todas
         </button>
         {lists.map((l) => (
-          <div
-            key={l.id}
-            className={`group flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm ${
+          <div key={l.id} className="flex flex-col">
+            <div className={`group flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm ${
               listaAtiva === l.id ? "bg-accent-soft text-accent font-medium" : "text-neutral-600 hover:bg-neutral-100"
-            }`}
-          >
-            <button
-              onClick={() => { onSelecionarLista(l.id); onFechar(); }}
-              className="flex flex-1 items-center gap-2 text-left"
-            >
-              <span className="h-2.5 w-2.5 rounded-full" style={{ background: l.color }} />
-              {l.title}
-            </button>
-            <button
-              onClick={(e) => { e.stopPropagation(); onExcluirLista(l.id); }}
-              className="text-neutral-300 opacity-100 md:opacity-0 group-hover:md:opacity-100 hover:text-red-500"
-            >
-              ×
-            </button>
+            }`}>
+              <button
+                onClick={(e) => { e.stopPropagation(); setCorAberta(corAberta === l.id ? null : l.id); }}
+                className="h-3 w-3 shrink-0 rounded-full"
+                style={{ background: l.color }}
+                aria-label="Mudar cor"
+              />
+              <button
+                onClick={() => { onSelecionarLista(l.id); onFechar(); }}
+                className="flex-1 text-left"
+              >
+                {l.title}
+              </button>
+              <button
+                onClick={(e) => { e.stopPropagation(); onExcluirLista(l.id); }}
+                className="text-neutral-300 opacity-100 md:opacity-0 group-hover:md:opacity-100 hover:text-red-500"
+              >
+                ×
+              </button>
+            </div>
+
+            {corAberta === l.id && (
+              <div className="flex gap-1.5 px-2 py-2">
+                {PALETA.map((cor) => (
+                  <button
+                    key={cor}
+                    onClick={() => { onMudarCor(l.id, cor); setCorAberta(null); }}
+                    className="h-5 w-5 rounded-full border border-neutral-200"
+                    style={{ background: cor }}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         ))}
-
         {lists.length === 0 && (
           <div className="px-2 text-xs text-neutral-400">crie com #nome</div>
         )}
+      <button
+        onClick={onSair}
+        className="mt-auto rounded-lg px-2 py-1.5 text-left text-sm text-neutral-500 hover:bg-neutral-100"
+      >
+        Sair
+      </button>
       </aside>
     </>
   );
