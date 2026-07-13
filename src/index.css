@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+@theme {
+  --color-accent: #5546FF;
+  --color-accent-soft: #ECEAFF;
+  --color-paper: #F6F5F2;
+  --color-ink: #17171B;
+  --font-display: "Bricolage Grotesque", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
