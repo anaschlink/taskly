@@ -80,6 +80,11 @@ export function todayISO() : string{
 
     const today = ano + "-" + mes + "-" + dia; 
 
+    []
+
     return today 
 
 }
+
+export const DIAS = ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"];
+

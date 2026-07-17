@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { todayISO, getWeekDays, expandTemplates } from "../lib/schedule";
+import { todayISO, getWeekDays, expandTemplates, DIAS } from "../lib/schedule";
 import { useSchedule } from "../hooks/useSchedule";
 import { useTasks } from "../hooks/useTasks";
 import { TaskList } from "./TaskList";
+
 
 export function WeekView() {
   const { schedules, loading } = useSchedule();
@@ -13,16 +14,16 @@ export function WeekView() {
   const occurrences = expandTemplates(schedules, selectedDay, selectedDay);
   const dayTasks = tasks.filter((t => t.scheduled_date === selectedDay))
   ;
-
-  // 3. guard
   if (loading) return <p>Carregando...</p>;
 
-  // 4. JSX
   return (
     <div>
     <div className="grid grid-cols-7 gap-1">
     {weekDays.map((w) => (
-      <button className={`text-center rounded-lg py-1.5 ${w === selectedDay ? "bg-accent text-white" : ""}`} key={w} onClick={() => setSelectedDay(w)}>{w}</button>
+      <button className={`text-center rounded-lg py-1.5 ${w === selectedDay ? "bg-accent text-white" : ""}`} key={w} onClick={() => setSelectedDay(w)}>
+        <div className="text-[11px] opacity-60">{DIAS[new Date(w).getUTCDay()]}</div>
+        <div className="text-sm">{w.slice(-2)}</div>
+      </button>
     ))}
     </div>
 
