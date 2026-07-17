@@ -14,5 +14,7 @@ export interface Task {
     important: boolean;
     created_at: string;
     completed_at: string | null;
+    schedule_template_id?: string;
+    scheduled_date?: string;
 
 }

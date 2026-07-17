@@ -8,6 +8,7 @@ import { useAuth } from "./hooks/useAuth";
 import { Login } from "./components/Login";
 import { useState } from "react";
 import { signOut } from "./services/authServices";
+import { WeekView } from "./components/WeekView";
 
 export function App(){
     const session = useAuth()
@@ -25,6 +26,7 @@ function Taskly(){
     const progresso = tasks.length === 0 ? 0 : concluidas / tasks.length;
     const [menuAberto, setMenuAberto] = useState(false);
     const [listaAtiva, setListaAtiva] = useState<string | null>(null);
+    const [view, setView] = useState<"capture" | "week"> ("capture");
 
     const tarefasVisiveis = listaAtiva ? tasks.filter((t) => t.list_id === listaAtiva): tasks;
     
@@ -62,7 +64,10 @@ async function handleAdd(raw: string){
             <h1
             onClick={() => setMenuAberto(true)}
              className="font-display text-2xl md:text-3xl font-bold text-accent cursor-pointer md:cursor-default">Taskly</h1>
+            <button  onClick={() => setView(view === "capture" ? "week" : "capture")}>Semana</button>
             <ProgressRing progress={progresso}/>
+            {view === "capture" ? (
+            <>
             <div className="mt-6">
             <CaptureBar onAdd={handleAdd} />
             </div>
@@ -71,8 +76,12 @@ async function handleAdd(raw: string){
                 <p className="mt-10 text-center text-sm text-neutral-400">Tudo limpo por aqui. Solta a próxima tarefa lá em cima.  ✨</p>
             ): 
             <TaskList tasks={tarefasVisiveis} onToggle={toggleTask} onRemove={removeTask} />
-            }
+        }
             </div>
+            </>
+            ): (
+                <WeekView />
+            )}
         </div>
         </main>
     </div>
