@@ -83,5 +83,3 @@ export function todayISO() : string{
     return today 
 
 }
-
-console.log(todayISO())
