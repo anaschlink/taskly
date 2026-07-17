@@ -65,7 +65,12 @@ async function handleAdd(raw: string){
             onClick={() => setMenuAberto(true)}
              className="font-display text-2xl md:text-3xl font-bold text-accent cursor-pointer md:cursor-default">Taskly</h1>
             <div className="flex items-center justify-between">
-            <button  onClick={() => setView(view === "capture" ? "week" : "capture")}>📅</button>
+            <button 
+            onClick={() => setView(view === "capture" ? "week" : "capture")}
+            className="rounded-lg border border-neutral-200 px-3 py-1.5 text-lg"
+            aria-label={view === "capture" ? "Ver semana" : "Ver lista"}>
+            {view === "capture" ? "▦" : "☰"}
+            </button>
             <ProgressRing progress={progresso}/>
             </div>
             {view === "capture" ? (
